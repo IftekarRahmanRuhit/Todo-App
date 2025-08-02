@@ -18,6 +18,14 @@ const initialState : InitialState = {
       isCompleted: false,
       priority: "High",
     },
+    {
+      id: "asdfghjklsasfas",
+      title: "Init Github Repository",
+      description: "Create Stage Branch",
+      dueDate: "2025-08-25",
+      isCompleted: false,
+      priority: "Medium",
+    },
   ],
   filter : "All", 
 };
