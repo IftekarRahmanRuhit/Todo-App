@@ -7,7 +7,7 @@ import taskReducer from "./features/task/taskSlice";
 // and allow components to access and modify the state
 export const store = configureStore({
   reducer: {
-    tasks: taskReducer
+    todo: taskReducer
   },
 });//
 
