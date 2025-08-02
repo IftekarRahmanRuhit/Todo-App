@@ -1,3 +1,5 @@
+
+import { AddTaskModal } from "@/components/TaskCard/AddTaskModal";
 import TaskCard from "@/components/TaskCard/TaskCard";
 import { selectTasks } from "@/redux/features/task/taskSlice";
 import { useAppSelector } from "@/redux/hook";
@@ -12,8 +14,11 @@ export default function Tasks() {
 
   return (
     <div className="mx-auto max-w-7xl px-5 mt-20">
-      <div>
+      <div className="flex justify-between">
         <h1>Tasks</h1>
+      <AddTaskModal>
+        
+      </AddTaskModal>
       </div>
       <div className="space-y-5 mt-5">
         {
