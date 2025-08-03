@@ -17,13 +17,13 @@ export default function Tasks() {
       <div className="flex justify-between">
         <h1>Tasks</h1>
       <AddTaskModal>
-        
+
       </AddTaskModal>
       </div>
       <div className="space-y-5 mt-5">
         {
           tasks.map((task) =>(
-            <TaskCard task={task}></TaskCard>
+            <TaskCard key={task.id} task={task}></TaskCard>
           ))
         }
 

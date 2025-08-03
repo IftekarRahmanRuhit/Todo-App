@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -18,6 +19,7 @@ import {
 } from "../../components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
 export function AddTaskModal() {
   const form = useForm();
@@ -33,6 +35,7 @@ export function AddTaskModal() {
           <Button variant="outline">Add Task</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
+          <DialogDescription>Fill up the form to add a task</DialogDescription>
           <DialogHeader>
             <DialogTitle>Add Task</DialogTitle>
           </DialogHeader>
@@ -43,13 +46,27 @@ export function AddTaskModal() {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel />
+                    <FormLabel className="mb-2">Title</FormLabel>
                     <FormControl>
-                      <Input {...field}></Input>
+                      <Input {...field} value={field.value || ""}></Input>
                     </FormControl>
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="Description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mt-2 mb-2">Description</FormLabel>
+                    <FormControl>
+                      <Textarea {...field} value={field.value || ""} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
               <DialogFooter>
                 <DialogClose asChild>
                   <Button variant="outline">Cancel</Button>
