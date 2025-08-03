@@ -16,9 +16,7 @@ export default function Tasks() {
     <div className="mx-auto max-w-7xl px-5 mt-20">
       <div className="flex justify-between">
         <h1>Tasks</h1>
-      <AddTaskModal>
-
-      </AddTaskModal>
+      <AddTaskModal />
       </div>
       <div className="space-y-5 mt-5">
         {
@@ -26,7 +24,7 @@ export default function Tasks() {
             <TaskCard key={task.id} task={task}></TaskCard>
           ))
         }
-
+s
       </div>
     </div>
   )
