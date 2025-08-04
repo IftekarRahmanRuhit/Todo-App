@@ -13,11 +13,10 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+
 } from "../../components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "../ui/input";
@@ -28,12 +27,18 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
+import { useAppDispatch } from "@/redux/hook";
+import { addTask } from "@/redux/features/task/taskSlice";
 
 export function AddTaskModal() {
   const form = useForm();
 
+  const dispatch = useAppDispatch()
+  
+  
   const onSubmit = (data) => {
     console.log(data);
+    dispatch(addTask(data))
   };
 
   return (
@@ -64,7 +69,7 @@ export function AddTaskModal() {
 
               <FormField
                 control={form.control}
-                name="Description"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="mt-2 mb-2">Description</FormLabel>
@@ -77,7 +82,7 @@ export function AddTaskModal() {
 
 <FormField
           control={form.control}
-          name="Priority"
+          name="priority"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="mt-2 mb-1">Priority</FormLabel>
@@ -90,7 +95,7 @@ export function AddTaskModal() {
                 <SelectContent>
                   <SelectItem value="low">Low</SelectItem>
                   <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
