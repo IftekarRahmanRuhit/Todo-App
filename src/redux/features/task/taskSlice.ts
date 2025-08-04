@@ -1,42 +1,56 @@
-import type { RootState } from "@/redux/store";
-import type { ITask } from "../../../types";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
+import type { RootState } from "@/redux/store";          
+import type { ITask } from "../../../types";                
+import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit"; 
 
+// Defining the shape of the slice state
 interface InitialState {
-  tasks: ITask[];
-  filter: "All" | "High" | "Medium" | "Low";
+  tasks: ITask[];                                           
+  filter: "All" | "High" | "Medium" | "Low";                
 }
 
+// Initial state for the slice
 const initialState: InitialState = {
   tasks: [],
   filter: "All",
 };
 
-export const taskSlice = createSlice({
-  name: "task",
-  initialState,
-  reducers: {
-    addTask: (state, action: PayloadAction<ITask>) => {
-      const id = uuidv4();
+// Defining the shape of form data (without id and isCompleted)
+type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority">;
 
-      const taskData = {
-        ...action.payload,
-        id,
-        isCompleted: false,
-      };
-      state.tasks.push(taskData);
+
+const createTask = (taskData: DraftTask): ITask => {
+  return {
+    id: nanoid(),  // Auto-generate a unique task ID
+    isCompleted: false, // New tasks are incomplete by default
+    ...taskData,   // Spread the rest of the form values
+  };
+};
+
+// Creating the Redux slice
+export const taskSlice = createSlice({
+  name: "task",    
+  initialState,       
+  reducers: {
+    // Reducer to add a new task to the list
+    addTask: (state, action: PayloadAction<DraftTask>) => {
+      const taskData = createTask(action.payload); 
+      state.tasks.push(taskData);                  
     },
   },
 });
 
+// Selector to get all tasks from the Redux state
 export const selectTasks = (state: RootState) => {
   return state.todo.tasks;
 };
+
+// Selector to get the current filter
 export const selectFilter = (state: RootState) => {
   return state.todo.filter;
 };
 
+// Exporting the action(s) so components can dispatch them
 export const { addTask } = taskSlice.actions;
 
+// Exporting the reducer so it can be added to the store
 export default taskSlice.reducer;

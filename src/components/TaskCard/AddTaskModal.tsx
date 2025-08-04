@@ -18,7 +18,7 @@ import {
   FormLabel,
 
 } from "../../components/ui/form";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -29,6 +29,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { useAppDispatch } from "@/redux/hook";
 import { addTask } from "@/redux/features/task/taskSlice";
+import type { ITask } from "@/types";
 
 export function AddTaskModal() {
   const form = useForm();
@@ -36,9 +37,9 @@ export function AddTaskModal() {
   const dispatch = useAppDispatch()
   
   
-  const onSubmit = (data) => {
-    console.log(data);
-    dispatch(addTask(data))
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  
+    dispatch(addTask(data as ITask))
   };
 
   return (
