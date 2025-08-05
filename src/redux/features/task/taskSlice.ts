@@ -5,7 +5,7 @@ import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
 // Defining the shape of the slice state
 interface InitialState {
   tasks: ITask[];
-  filter: "All" | "High" | "Medium" | "Low";
+  filter: "all" | "high" | "medium" | "low";
 }
 
 // Initial state for the slice
@@ -20,7 +20,7 @@ const initialState: InitialState = {
       priority: "high",
     },
   ],
-  filter: "All",
+  filter: "all",
 };
 
 // Defining the shape of form data (without id and isCompleted)
@@ -54,17 +54,31 @@ export const taskSlice = createSlice({
     },
 
     deleteTask: (state, action: PayloadAction<string>) => {
-     state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
     },
 
-
-
+    updateFilter: (
+      state,
+      action: PayloadAction<"all" | "low" | "medium" | "high">
+    ) => {
+      state.filter = action.payload;
+    },
   },
 });
 
 // Selector to get all tasks from the Redux state
 export const selectTasks = (state: RootState) => {
-  return state.todo.tasks;
+  const filter = state.todo.filter;
+
+  if (filter === "low") {
+    return state.todo.tasks.filter((task) => task.priority === "low");
+  } else if (filter === "medium") {
+    return state.todo.tasks.filter((task) => task.priority === "medium");
+  } else if (filter === "high") {
+    return state.todo.tasks.filter((task) => task.priority === "high");
+  } else {
+    return state.todo.tasks;
+  }
 };
 
 // Selector to get the current filter
@@ -73,7 +87,8 @@ export const selectFilter = (state: RootState) => {
 };
 
 // Exporting the action(s) so components can dispatch them
-export const { addTask,toggleCompleteState,deleteTask } = taskSlice.actions;
+export const { addTask, toggleCompleteState, deleteTask, updateFilter } =
+  taskSlice.actions;
 
 // Exporting the reducer so it can be added to the store
 export default taskSlice.reducer;
