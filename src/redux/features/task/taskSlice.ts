@@ -37,7 +37,7 @@ const createTask = (taskData: DraftTask): ITask => {
 // Creating the Redux slice
 export const taskSlice = createSlice({
   name: "task",
-  initialState,
+  initialState, 
   reducers: {
     // Reducer to add a new task to the list
     addTask: (state, action: PayloadAction<DraftTask>) => {
@@ -81,9 +81,11 @@ export const selectTasks = (state: RootState) => {
   }
 };
 
+
+
 // Selector to get the current filter
 export const selectFilter = (state: RootState) => {
-  return state.todo.filter;
+  return state.todo.filter; 
 };
 
 // Exporting the action(s) so components can dispatch them

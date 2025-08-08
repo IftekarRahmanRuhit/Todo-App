@@ -9,7 +9,7 @@ export default function Tasks() {
   // but using the selector function is a better practice for reusability and separation of concerns
   const tasks = useAppSelector(selectTasks); // using the selector function to access the tasks
 
-  console.log(tasks);
+
 
   const dispatch = useAppDispatch()
 
