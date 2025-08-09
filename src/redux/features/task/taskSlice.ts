@@ -26,6 +26,12 @@ const initialState: InitialState = {
 // Defining the shape of form data (without id and isCompleted)
 type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority">;
 
+// Defining the shape of update task payload
+type UpdateTaskPayload = {
+  id: string;
+  updates: Partial<Pick<ITask, "title" | "description" | "dueDate" | "priority">>;
+};
+
 const createTask = (taskData: DraftTask): ITask => {
   return {
     id: nanoid(), // Auto-generate a unique task ID
@@ -57,6 +63,14 @@ export const taskSlice = createSlice({
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
     },
 
+    updateTask: (state, action: PayloadAction<UpdateTaskPayload>) => {
+      const { id, updates } = action.payload;
+      const taskIndex = state.tasks.findIndex((task) => task.id === id);
+      if (taskIndex !== -1) {
+        state.tasks[taskIndex] = { ...state.tasks[taskIndex], ...updates };
+      }
+    },
+
     updateFilter: (
       state,
       action: PayloadAction<"all" | "low" | "medium" | "high">
@@ -68,16 +82,16 @@ export const taskSlice = createSlice({
 
 // Selector to get all tasks from the Redux state
 export const selectTasks = (state: RootState) => {
-  const filter = state.todo.filter;
+  const { filter, tasks } = state.todo;
 
   if (filter === "low") {
-    return state.todo.tasks.filter((task) => task.priority === "low");
+    return tasks.filter((task) => task.priority === "low");
   } else if (filter === "medium") {
-    return state.todo.tasks.filter((task) => task.priority === "medium");
+    return tasks.filter((task) => task.priority === "medium");
   } else if (filter === "high") {
-    return state.todo.tasks.filter((task) => task.priority === "high");
+    return tasks.filter((task) => task.priority === "high");
   } else {
-    return state.todo.tasks;
+    return tasks;
   }
 };
 
@@ -89,7 +103,7 @@ export const selectFilter = (state: RootState) => {
 };
 
 // Exporting the action(s) so components can dispatch them
-export const { addTask, toggleCompleteState, deleteTask, updateFilter } =
+export const { addTask, toggleCompleteState, deleteTask, updateTask, updateFilter } =
   taskSlice.actions;
 
 // Exporting the reducer so it can be added to the store
