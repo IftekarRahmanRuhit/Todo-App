@@ -1,5 +1,6 @@
 import Tasks from "@/pages/Tasks.tsx";
 import App from "../App.tsx";
+import Home from "@/pages/Home.tsx";
 
 import { createBrowserRouter } from "react-router";
 import User from "@/pages/User.tsx";
@@ -12,8 +13,11 @@ const router = createBrowserRouter([
     Component: App,
     children: [
       {
+        index: true,
+        Component: Home
+      },
+      {
         path: "tasks",
-        // index: true,
         Component: Tasks
       },
       {
